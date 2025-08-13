@@ -242,6 +242,9 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             elif llm_provider == "deepseek":
                 config["quick_think_llm"] = "deepseek-chat"  # DeepSeek只有一个模型
                 config["deep_think_llm"] = "deepseek-chat"
+            elif llm_provider == "lkeap":
+                config["quick_think_llm"] = "deepseek-v3-0324"  # DeepSeek只有一个模型
+                config["deep_think_llm"] = "deepseek-v3-0324"
         elif research_depth == 2:  # 2级 - 基础分析
             config["max_debate_rounds"] = 1
             config["max_risk_discuss_rounds"] = 1
@@ -253,6 +256,9 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             elif llm_provider == "deepseek":
                 config["quick_think_llm"] = "deepseek-chat"
                 config["deep_think_llm"] = "deepseek-chat"
+            elif llm_provider == "lkeap":
+                config["quick_think_llm"] = "deepseek-v3-0324"
+                config["deep_think_llm"] = "deepseek-v3-0324"
         elif research_depth == 3:  # 3级 - 标准分析 (默认)
             config["max_debate_rounds"] = 1
             config["max_risk_discuss_rounds"] = 2
@@ -264,6 +270,9 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             elif llm_provider == "deepseek":
                 config["quick_think_llm"] = "deepseek-chat"
                 config["deep_think_llm"] = "deepseek-chat"
+            elif llm_provider == "lkeap":
+                config["quick_think_llm"] = "deepseek-v3-0324"  # DeepSeek只有一个模型
+                config["deep_think_llm"] = "deepseek-v3-0324"
         elif research_depth == 4:  # 4级 - 深度分析
             config["max_debate_rounds"] = 2
             config["max_risk_discuss_rounds"] = 2
@@ -275,6 +284,9 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             elif llm_provider == "deepseek":
                 config["quick_think_llm"] = "deepseek-chat"
                 config["deep_think_llm"] = "deepseek-chat"
+            elif llm_provider == "lkeap":
+                config["quick_think_llm"] = "deepseek-v3-0324"  # DeepSeek只有一个模型
+                config["deep_think_llm"] = "deepseek-v3-0324"
         else:  # 5级 - 全面分析
             config["max_debate_rounds"] = 3
             config["max_risk_discuss_rounds"] = 3
@@ -286,12 +298,17 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             elif llm_provider == "deepseek":
                 config["quick_think_llm"] = "deepseek-chat"
                 config["deep_think_llm"] = "deepseek-chat"
+            elif llm_provider == "lkeap":
+                config["quick_think_llm"] = "deepseek-v3-0324"  # DeepSeek只有一个模型
+                config["deep_think_llm"] = "deepseek-v3-0324"
 
         # 根据LLM提供商设置不同的配置
         if llm_provider == "dashscope":
             config["backend_url"] = "https://dashscope.aliyuncs.com/api/v1"
         elif llm_provider == "deepseek":
             config["backend_url"] = "https://api.deepseek.com"
+        elif llm_provider == "lkeap":
+            config["backend_url"] = "https://api.lkeap.cloud.tencent.com/v1"
         elif llm_provider == "google":
             # Google AI不需要backend_url，使用默认的OpenAI格式
             config["backend_url"] = "https://api.openai.com/v1"

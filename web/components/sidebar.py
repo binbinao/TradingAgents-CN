@@ -209,13 +209,15 @@ def render_sidebar():
         # LLM提供商选择
         llm_provider = st.selectbox(
             "LLM提供商",
-            options=["dashscope", "deepseek", "google", "openrouter"],
-            index=["dashscope", "deepseek", "google", "openrouter"].index(st.session_state.llm_provider) if st.session_state.llm_provider in ["dashscope", "deepseek", "google", "openrouter"] else 0,
+            options=["dashscope", "deepseek", "google", "openrouter","lkeap","ollama"],
+            index=["dashscope", "deepseek", "google", "openrouter","lkeap","ollama"].index(st.session_state.llm_provider) if st.session_state.llm_provider in ["dashscope", "deepseek", "google", "openrouter","lkeap","ollama"] else 0,
             format_func=lambda x: {
                 "dashscope": "🇨🇳 阿里百炼",
                 "deepseek": "🚀 DeepSeek V3",
                 "google": "🌟 Google AI",
-                "openrouter": "🌐 OpenRouter"
+                "openrouter": "🌐 OpenRouter",
+                "lkeap": "🔥 LKEAP DeepSeek V3",
+                 "ollama": "🔥 Ollama"
             }[x],
             help="选择AI模型提供商",
             key="llm_provider_select"
@@ -322,6 +324,35 @@ def render_sidebar():
 
             # 保存到持久化存储
             save_model_selection(st.session_state.llm_provider, st.session_state.model_category, llm_model)
+        elif llm_provider == "lkeap":
+            lkeap_options = ["deepseek-v3-0324", "deepseek-r1-0528"]
+
+            # 获取当前选择的索引
+            current_index = 0
+            if st.session_state.llm_model in lkeap_options:
+                current_index = lkeap_options.index(st.session_state.llm_model)
+
+            llm_model = st.selectbox(
+                "选择Leap模型",
+                options=lkeap_options,
+                index=current_index,
+                format_func=lambda x: {
+                    "deepseek-v3-0324": "DeepSeek V3 0324 - 推荐使用",
+                    "deepseek-r1-0528": "DeepSeek R1 0528 - 强大性能"
+                }[x],
+                help="选择用于分析的Lkeap模型",
+                key="lkeap_model_select"
+            )
+
+            # 更新session state和持久化存储
+            if st.session_state.llm_model != llm_model:
+                logger.debug(f"🔄 [Persistence] Lkeap模型变更: {st.session_state.llm_model} → {llm_model}")
+            st.session_state.llm_model = llm_model
+            logger.debug(f"💾 [Persistence] Lkeap模型已保存: {llm_model}")
+
+            # 保存到持久化存储
+            save_model_selection(st.session_state.llm_provider, st.session_state.model_category, llm_model)
+        
         else:  # openrouter
             # OpenRouter模型分类选择
             model_category = st.selectbox(
@@ -534,6 +565,38 @@ def render_sidebar():
                     logger.debug(f"🔄 [Persistence] Google OpenRouter模型变更: {st.session_state.llm_model} → {llm_model}")
                 st.session_state.llm_model = llm_model
                 logger.debug(f"💾 [Persistence] Google OpenRouter模型已保存: {llm_model}")
+
+                # 保存到持久化存储
+                save_model_selection(st.session_state.llm_provider, st.session_state.model_category, llm_model)
+
+            elif model_category == "lkeap":
+                lkeap_options = [
+                    "deepseek-v3-0324",
+                    "deepseek-r1-0528"
+                ]
+
+                # 获取当前选择的索引
+                current_index = 0
+                if st.session_state.llm_model in google_openrouter_options:
+                    current_index = google_openrouter_options.index(st.session_state.llm_model)
+
+                llm_model = st.selectbox(
+                    "选择Leap模型",
+                    options=lkeap_options,
+                    index=current_index,
+                    format_func=lambda x: {
+                    "deepseek-v3-0324": "DeepSeek V3 0324 - 推荐使用",
+                    "deepseek-r1-0528": "DeepSeek R1 0528 - 强大性能"
+                    }[x],
+                    help="Lkeap公司的DeepSeek系列模型，包含最新DeepSeek V3和R1",
+                    key="lkeap_model_select"
+                )
+
+                # 更新session state和持久化存储
+                if st.session_state.llm_model != llm_model:
+                    logger.debug(f"🔄 [Persistence] Lkeap模型变更: {st.session_state.llm_model} → {llm_model}")
+                st.session_state.llm_model = llm_model
+                logger.debug(f"💾 [Persistence] Lkeap模型已保存: {llm_model}")
 
                 # 保存到持久化存储
                 save_model_selection(st.session_state.llm_provider, st.session_state.model_category, llm_model)

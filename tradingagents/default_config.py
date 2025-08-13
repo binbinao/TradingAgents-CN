@@ -9,13 +9,13 @@ DEFAULT_CONFIG = {
         "dataflows/data_cache",
     ),
     # LLM settings
-    "llm_provider": "openai",
-    "deep_think_llm": "o4-mini",
-    "quick_think_llm": "gpt-4o-mini",
-    "backend_url": "https://api.openai.com/v1",
+    "llm_provider": "lkeap",
+    "deep_think_llm": "deepseek-v3-0324",
+    "quick_think_llm": "deepseek-v3-0324",
+    "backend_url": "https://api.lkeap.cloud.tencent.com/v1",
     # Debate and discussion settings
-    "max_debate_rounds": 1,
-    "max_risk_discuss_rounds": 1,
+    "max_debate_rounds": 3,
+    "max_risk_discuss_rounds": 3,
     "max_recur_limit": 100,
     # Tool settings
     "online_tools": True,
